@@ -15,13 +15,14 @@
 setlocal enabledelayedexpansion
 :main
 set SUDO_HOME=%~dp0
-set CALL_APPLICATION_NAME=%1
+set CALL_APPLICATION_NAME=%~1
+set USER_INPUT_ARGUMENTS=%~2
 call :isApplicationNameEmpty
 if "%ERRORLEVEL%"=="1" (
   exit /b
 )
 call :getApplicationArguments
-powershell Start-Process -FilePath %CALL_APPLICATION_NAME% !ARGUMENTS!
+powershell Start-Process -FilePath "%CALL_APPLICATION_NAME%" !ARGUMENTS!
 exit /b
 
 
@@ -44,7 +45,10 @@ if "%CALL_APPLICATION_NAME%"=="powershell" (
   set ARGUMENTS=-ArgumentList '-NoExit -Command Set-Location "%CD%"' -Verb RunAs
   exit /b
 )
-set ARGUMENTS=-Verb RunAs
+if "%USER_INPUT_ARGUMENTS%"=="" (
+  set ARGUMENTS=-Verb RunAs
+)
+set ARGUMENTS=-ArgumentList "%USER_INPUT_ARGUMENTS%" -Verb RunAs
 exit /b
 
 endlocal
