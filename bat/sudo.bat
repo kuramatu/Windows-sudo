@@ -47,6 +47,7 @@ if "%CALL_APPLICATION_NAME%"=="powershell" (
 )
 if "%USER_INPUT_ARGUMENTS%"=="" (
   set ARGUMENTS=-Verb RunAs
+  exit /b
 )
 set ARGUMENTS=-ArgumentList "%USER_INPUT_ARGUMENTS%" -Verb RunAs
 exit /b
